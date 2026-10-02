@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1600px; height:640px; background:#090909; color:#EDEDED;
+    font-family:'Space Grotesk', system-ui, sans-serif; padding:72px 80px; position:relative; overflow:hidden; }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(#141414 1px, transparent 1px), linear-gradient(90deg, #141414 1px, transparent 1px);
+    background-size:64px 64px; opacity:.55; }
+  .wrap { position:relative; z-index:2; display:flex; flex-direction:column; height:100%; width:100%; }
+  .top { display:flex; align-items:center; gap:18px; }
+  .dot { width:11px; height:11px; border-radius:3px; background:#D6FF00; }
+  .kicker { font-family:'JetBrains Mono', monospace; font-size:17px; letter-spacing:.32em; text-transform:uppercase; color:#8A8A8A; }
+  h1 { font-size:112px; line-height:.94; font-weight:700; letter-spacing:-.045em; margin-top:26px; }
+  h1 .v { color:#D6FF00; }
+  .sub { font-size:27px; color:#B4B4B4; max-width:1080px; margin-top:22px; line-height:1.42; }
+  .bottom { margin-top:auto; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+  .flow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .node { font-family:'JetBrains Mono', monospace; font-size:15.5px; color:#CFCFCF;
+    border:1px solid #262626; background:#121212; border-radius:8px; padding:10px 14px; }
+  .node.on { color:#111; background:#D6FF00; border-color:#D6FF00; font-weight:600; }
+  .arrow { color:#4A4A4A; font-family:'JetBrains Mono', monospace; font-size:15px; }
+  .meta { font-family:'JetBrains Mono', monospace; font-size:15.5px; color:#6E6E6E; text-align:right; line-height:1.7; }
+  .meta b { color:#C65F5F; font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="wrap">
+    <div>
+      <div class="top"><div class="dot"></div><div class="kicker">Agent Skill · v2.0 · Python 3.9 · no deps</div></div>
+      <h1>VIBE<span class="v">-</span>AUDIT<span class="v">.</span></h1>
+      <div class="sub">Security audit of an AI-generated codebase: 30+ secret providers, CI/CD, Docker, Terraform, MCP configs, TLS, injection, and AI spend — read-only, secrets masked, fix attached to every finding.</div>
+    </div>
+    <div class="bottom">
+      <div class="flow">
+        <div class="node">static scan</div><div class="arrow">→</div>
+        <div class="node">manual pass</div><div class="arrow">→</div>
+        <div class="node on">problem → fix</div><div class="arrow">→</div>
+        <div class="node">vibe-audit-report.md</div>
+      </div>
+      <div class="meta">read-only · nothing installed<br>live check: <b>your domain only</b></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+
+# Audit output — never commit the report this tool generates
+vibe-audit-report.md
+livecheck-report.md
+audit.json
+livecheck.json
+
+# Node
+node_modules/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Agent-local noise
+.claude/settings.local.json
+.mcp.local.json

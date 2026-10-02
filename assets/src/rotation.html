@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1600px; height:900px; background:#090909; color:#EDEDED;
+    font-family:'Space Grotesk', sans-serif; padding:52px 60px; position:relative; overflow:hidden; }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(#131313 1px, transparent 1px), linear-gradient(90deg, #131313 1px, transparent 1px);
+    background-size:64px 64px; opacity:.5; }
+  .wrap { position:relative; z-index:2; display:flex; flex-direction:column; height:100%; }
+  .head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; }
+  h1 { font-size:42px; font-weight:700; letter-spacing:-.02em; }
+  .tag { font-family:'JetBrains Mono', monospace; font-size:15px; color:#7A7A7A; letter-spacing:.2em; text-transform:uppercase; }
+
+  .flow { display:flex; align-items:stretch; gap:12px; }
+  .step { flex:1; background:#121212; border:1px solid #242424; border-radius:10px; padding:20px 20px;
+    display:flex; flex-direction:column; gap:10px; }
+  .step .n { font-family:'JetBrains Mono', monospace; font-size:13.5px; color:#D6FF00; letter-spacing:.16em; }
+  .step h3 { font-size:23px; font-weight:600; }
+  .step p { font-size:16.5px; line-height:1.45; color:#9C9C9C; }
+  .step.hot { border-left:4px solid #C65F5F; }
+  .arrow { align-self:center; color:#3E3E3E; font-family:'JetBrains Mono', monospace; font-size:20px; }
+
+  .split { display:flex; gap:12px; margin-top:12px; flex:1; }
+  .box { flex:1; background:#0F0F0F; border:1px solid #242424; border-radius:10px; padding:20px 22px; display:flex; flex-direction:column; }
+  .box h4 { font-family:'JetBrains Mono', monospace; font-size:14px; color:#8A8A8A; letter-spacing:.18em;
+    text-transform:uppercase; margin-bottom:14px; }
+  .line { font-size:17px; line-height:1.5; color:#B4B4B4; padding:8px 0; border-top:1px solid #1B1B1B; }
+  .line:first-of-type { border-top:none; }
+  .line b { color:#EDEDED; font-weight:500; }
+  .mono { font-family:'JetBrains Mono', monospace; font-size:15px; color:#8A8A8A; }
+  .warnbox { border-left:4px solid #FE4E01; }
+  .okbox { border-left:4px solid #5FAE76; }
+  .note { margin-top:auto; font-size:16.5px; line-height:1.5; color:#9C9C9C; }
+  .note b { color:#D6FF00; font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="wrap">
+    <div class="head"><h1>Found a live key? This is the order</h1><div class="tag">the only order that helps</div></div>
+
+    <div class="flow">
+      <div class="step hot">
+        <div class="n">01 · RIGHT NOW</div>
+        <h3>Rotate the key</h3>
+        <p>In the provider's console. Not in the next sprint — now. A key that ever touched git is already compromised, even in a private repo: bots scan public repos continuously, and a private one goes public through one fork.</p>
+        <div class="mono">openai → platform → API keys → revoke</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">02 · THEN</div>
+        <h3>Remove it from the code</h3>
+        <p>Environment variable or secret manager. The public prefixes (<code>NEXT_PUBLIC_</code>, <code>VITE_</code>, <code>REACT_APP_</code>, <code>PUBLIC_</code>, <code>EXPO_PUBLIC_</code>) are for non-secret values only — they put the variable straight into the client bundle.</p>
+        <div class="mono">.env + .gitignore</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="n">03 · LAST</div>
+        <h3>Clean the history</h3>
+        <p><code>git filter-repo</code> removes the string from commits, but it does <b>not</b> un-leak it. Step 01 is what actually protects the account; this one only stops the next person from finding it.</p>
+        <div class="mono">git filter-repo --path … --invert-paths</div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="box okbox">
+        <h4>The scanner proves</h4>
+        <div class="line">a key-shaped literal exists in a file it read</div>
+        <div class="line">that file is tracked by git</div>
+        <div class="line">a config opens CORS / debug / TLS verification</div>
+        <div class="line">an AI route has no auth keyword and no token cap</div>
+        <div class="line">a workflow checks out a PR ref with repo secrets in scope</div>
+      </div>
+      <div class="box warnbox">
+        <h4>The scanner cannot prove — say so out loud</h4>
+        <div class="line">whether the key was ever valid, or is still active</div>
+        <div class="line">whether a resource id is checked against its owner</div>
+        <div class="line">RLS policies, cloud-console rights, infra, mobile apps</div>
+        <div class="line">files skipped as too large, tools that could not run</div>
+        <div class="line">anything requiring two real accounts and real traffic</div>
+        <div class="note">A skipped check is <b>not</b> a green tick. "No findings" is a statement about the files that were read.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

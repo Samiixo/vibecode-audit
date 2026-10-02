@@ -1,0 +1,9 @@
+# Секреты живут только в .env, который не коммитится.
+.env
+.env.*
+!.env.example
+node_modules/
+__pycache__/
+dist/
+*.log
+.venv/

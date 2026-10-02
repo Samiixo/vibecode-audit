@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    env_file: .env
+    depends_on:
+      - redis
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - internal
+  redis:
+    image: redis:7.4-bookworm
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:?set REDIS_PASSWORD}"]
+    networks:
+      - internal
+
+networks:
+  internal:

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1600px; height:800px; background:#090909; color:#EDEDED;
+    font-family:'Space Grotesk', sans-serif; padding:50px 58px; position:relative; overflow:hidden; }
+  .grid { position:absolute; inset:0;
+    background-image:linear-gradient(#131313 1px, transparent 1px), linear-gradient(90deg, #131313 1px, transparent 1px);
+    background-size:64px 64px; opacity:.5; }
+  .wrap { position:relative; z-index:2; display:flex; flex-direction:column; height:100%; }
+  .head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:26px; }
+  h1 { font-size:40px; font-weight:700; letter-spacing:-.02em; }
+  .tag { font-family:'JetBrains Mono', monospace; font-size:15px; color:#7A7A7A; letter-spacing:.2em; text-transform:uppercase; }
+
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; flex:1; }
+  .col { display:flex; flex-direction:column; gap:12px; }
+  .card { background:#121212; border:1px solid #242424; border-radius:10px; padding:16px 18px; flex:1;
+    display:flex; flex-direction:column; }
+  .card.new { border-left:4px solid #D6FF00; }
+  .card h3 { font-family:'JetBrains Mono', monospace; font-size:14px; letter-spacing:.16em; text-transform:uppercase;
+    color:#8A8A8A; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .card.new h3 { color:#D6FF00; }
+  .count { color:#5A5A5A; }
+  ul { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  li { font-size:16.5px; line-height:1.35; color:#B4B4B4; display:flex; gap:9px; align-items:baseline; }
+  li::before { content:"▸"; color:#3E3E3E; font-size:12px; }
+  li.new { color:#D6D6D6; } li.new::before { content:"+"; color:#D6FF00; }
+
+  .foot { margin-top:12px; background:#0F0F0F; border:1px solid #242424; border-radius:10px; padding:15px 20px;
+    font-size:16.5px; line-height:1.5; color:#9C9C9C; }
+  .foot b { color:#EDEDED; font-weight:500; }
+  .foot .crit { color:#C65F5F; } .foot .warn { color:#FE4E01; } .foot .info { color:#7A9BC4; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="wrap">
+    <div class="head"><h1>What v2.0 covers</h1><div class="tag">v1 checks + the modern attack surface</div></div>
+
+    <div class="grid3">
+      <div class="col">
+        <div class="card">
+          <h3>Secrets &amp; keys <span class="count">v1 + v2</span></h3>
+          <ul>
+            <li>30+ providers: OpenAI, Anthropic, AWS, Stripe, Supabase, GitHub, GitLab, npm, Cloudflare, Vercel, HF, Groq…</li>
+            <li class="new">project keys, webhooks, JWT literals, Azure connection strings</li>
+            <li class="new">files v1 never opened: <b style="color:#D6FF00">Dockerfile, *.tfvars, .npmrc, .pem, .netrc, Procfile</b></li>
+            <li>public env prefixes: NEXT_PUBLIC_, VITE_, REACT_APP_</li>
+            <li class="new">Astro PUBLIC_, SvelteKit $env/static/public, EXPO_PUBLIC_</li>
+            <li class="new">MCP configs with literal secrets in env</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card new">
+          <h3>Infrastructure <span class="count">new in v2</span></h3>
+          <ul>
+            <li class="new">TLS off: verify=False, rejectUnauthorized, NODE_TLS_REJECT_UNAUTHORIZED=0</li>
+            <li class="new">pull_request_target + checkout of a PR ref</li>
+            <li class="new">secrets echoed in run:, permissions: write-all, self-hosted runners</li>
+            <li class="new">privileged: true, root container, curl | bash, ADD &lt;url&gt;, :latest</li>
+            <li class="new">secrets in ENV / ARG / --build-arg</li>
+            <li class="new">postinstall scripts, git-URL dependencies, missing lockfile</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card new">
+          <h3>Code-level risk <span class="count">v1 + v2</span></h3>
+          <ul>
+            <li>SQL via f-string, CORS *, debug on, eval</li>
+            <li class="new">command injection, os.system, pickle, unsafe yaml, zip-slip, SSTI, NoSQL $where</li>
+            <li class="new">SSRF from request input; dangerouslySetInnerHTML with user data</li>
+            <li class="new">Math.random() OTP, md5/sha1 passwords, jwt.decode as verify, alg confusion</li>
+            <li class="new">hardcoded AUTH_SECRET fallback, auth token in localStorage</li>
+            <li>role from client, IDOR, no rate limit, open AI endpoint, missing max_tokens</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <b>Severity means certainty, not suspicion.</b>
+      <span class="crit">critical</span> = unambiguously wrong (a live key, <code>privileged: true</code>, secrets echoed in CI) ·
+      <span class="warn">warning</span> = reads wrong, fix it ·
+      <span class="info">info</span> = «needs a human look» — an honest "I couldn't prove it from code".
+      A noisy linter gets deleted by its users, so every heuristic that cannot be made precise is downgraded, not kept loud.
+    </div>
+  </div>
+</body>
+</html>
